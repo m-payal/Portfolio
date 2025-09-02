@@ -123,7 +123,6 @@ const Home = () => {
                 
                 fontFamily: '"Playfair Display", serif',
                 fontWeight: 800,
-                fontStyle: 'italic',
                 fontSize: { xs: '3rem', sm: '3.4rem', md: '4rem' },
                 lineHeight: 1.05,
                 mb: 1.25,

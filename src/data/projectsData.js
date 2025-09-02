@@ -88,7 +88,7 @@ export const projData = [
 	],
 	label: "Simplii",
 	icon: simplii,                            
-	link: "https://github.com/m-payal/Simplii", // or use the demo: https://youtu.be/zLEY0Fdii5s
+	link: "https://github.com/m-payal/Simplii",
 	gitLink: "https://github.com/m-payal/Simplii",
 	done: false
   }
