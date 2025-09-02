@@ -30,7 +30,7 @@ const ITEMS = [
     tags: ["AI/ML", "Big Data", "HCI", "Data"],
     logo: ncsuLogo,
     manualHighlights: [
-      "GPA: 3.5/10",
+      "GPA: 3.5/4",
       "Coursework:  Human-Computer Interaction (HCI), Software Engineering, Program-Centered Design, Neural Networks, Database Management, Data Science, Software Security, Program-Centered User Design",
     ],
   },
