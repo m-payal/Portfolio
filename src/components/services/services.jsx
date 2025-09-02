@@ -18,13 +18,13 @@ const PER_PAGE = COLS * ROWS;
 
 /* ------------------------------------- UI ------------------------------------- */
 const Section = styled(Box)`
-  --nav-h: 84px;
+  --nav-h: 0px;
   --gy: ${GRID_GAP_Y}px;
   --gx: ${GRID_GAP_X}px;
 
   max-width: 90%;
   margin: 0 auto;
-  padding: 2px 16px 20px;
+  padding: 8px 16px 56px;
 
   min-height: calc(100svh - var(--nav-h));
   display: flex;
@@ -33,7 +33,7 @@ const Section = styled(Box)`
 `;
 
 const HeaderWrap = styled(Box)`
-  margin: 0 10 calc(var(--gy) * 1.5);
+  margin: 4px 10px 16px; 
   line-height: 1;
   && h1, && h2, && h3 { margin: 0; }
 `;
@@ -76,7 +76,7 @@ const CardShell = styled(Box)`
 
 const Clip = styled(Box)`
   position: relative;
-  min-height: 250px; /* room for one row + labels + arrows */
+  min-height: 240px; /* room for one row + labels + arrows */
   border-radius: ${CARD_RADIUS};
   overflow: hidden;
   box-shadow: 0 26px 54px rgba(0,0,0,.30);
@@ -355,7 +355,7 @@ const FlipCard = ({ item, i }) => {
 };
 
 const SkillsHeading = styled(Heading)`
-  && { margin: 2px 0 clamp(22px, 3vw, 40px) !important; }
+  && { margin: 0 0 12px !important; }
 `;
 
 const Services = () => (

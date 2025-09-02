@@ -18,7 +18,7 @@ const FullPage = () => {
 
       {/* Contact section */}
       <Box id="contact" sx={{ scrollMarginTop: "100px", my: { xs: 4, md: 6 } }}>
-        <ContactForm recipientEmail="mehta.payal2000.com" />
+        <ContactForm recipientEmail="mehta.payal2000@gmail.com" />
       </Box>
 
       <Footer />

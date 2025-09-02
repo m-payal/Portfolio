@@ -1,68 +1,42 @@
-/* Global base + blue theme */
+/* Layout + container rules live here */
+*, *::before, *::after { box-sizing: border-box; }
 
-/* 1) CSS variables */
+/* Never allow horizontal overflow */
+html, body { max-width: 100%; overflow-x: hidden; }
+
+/* Sticky-nav friendly anchor scrolling */
 :root {
-	/* Core blues */
-	--blue-dark: #0a2240;     /* dark blue (backgrounds) */
-	--blue-teal: #14b8a6;     /* teal blue (accents/CTAs) */
-	--blue-sky:  #7dd3fc;     /* sky blue (hover/links) */
-  
-	/* Extended shades */
-	--blue-dark-2: #081a32;
-	--blue-dark-3: #061427;
-  
-	/* Text & surfaces */
-	--text-primary: #e6f0ff;
-	--text-secondary: #c9d8f4;
-	--surface: #0f1f3a;
-	--divider: rgba(255,255,255,0.08);
-  
-	/* Legacy mappings used in components */
-	--white-text: var(--text-primary);
-	--gray-text:  var(--text-secondary);
-	--home-background: linear-gradient(180deg, var(--blue-dark) 0%, var(--blue-dark-2) 60%, var(--blue-dark-3) 100%);
-	--person-icon: var(--surface);
-	--red-text: var(--blue-teal); /* replace old red accent with teal */
-  
-	/* Navbar palette */
-	--nav-bg: #0c1216;                        /* deep charcoal block */
-	--nav-mobile-bg: #0c1216;
-	--nav-link: #9ccafc;                      /* sky */
-	--nav-link-hover: #14b8a6;                /* teal */
-	--nav-active: #e6f0ff;                    /* near-white */
-	--nav-underline: #14b8a6;                 /* teal underline */
-	--nav-border: rgba(125,211,252,0.18);
-  }
-  
-  /* 2) Globals */
-  html { scroll-behavior: smooth; }
-  
-  body {
-	margin: 0;
-	background: var(--blue-dark-3);
-	color: var(--text-primary);
-	-webkit-font-smoothing: antialiased;
-	-moz-osx-font-smoothing: grayscale;
-  }
-  
-  a { color: var(--blue-sky); text-decoration: none; }
-  a:hover { color: var(--blue-teal); }
-  
-  /* Focus visible outline for accessibility */
-  :focus-visible {
-	outline: 2px solid var(--blue-sky);
-	outline-offset: 2px;
-  }
-  
-  /* Prevent sticky nav from covering anchor targets */
-  #home, #about, #services, #exed, #work, #skills, #testimonials, #contact {
-	scroll-margin-top: 88px; /* match your taller nav */
-  }
-  
-  /* Optional subtle divider utility */
-  .hr-soft {
-	height: 1px;
-	background: var(--divider);
-	margin: 24px 0;
-  }
-  
+  --nav-h-xs: 68px;  /* match your Nav minHeight xs */
+  --nav-h-md: 84px;  /* match your Nav minHeight md */
+  --gutter: 24px;    /* mobile page gutter */
+  --gutter-lg: 48px; /* desktop page gutter */
+}
+
+html { scroll-padding-top: var(--nav-h-xs); }
+@media (min-width: 900px) {
+  html { scroll-padding-top: var(--nav-h-md); }
+}
+
+/* Generic centered container with sane gutters */
+.container {
+  max-width: 1220px;
+  margin: 0 auto;
+  padding: 0 var(--gutter) 7.2rem;
+}
+
+/* Home gets slightly custom padding but still within gutters */
+.home.container { padding: 0 var(--gutter) 64px; }
+
+/* Wider gutters on desktop */
+@media (min-width: 900px) {
+  .container { padding: 0 var(--gutter-lg) 7.2rem; }
+  .home.container { padding: 0 var(--gutter-lg) 64px; }
+}
+
+/* Theme helpers (safe to keep here so they're global) */
+.red-text { color: var(--red-text); }
+.gray-text { color: var(--gray-text); }
+.white-text { color: var(--white-text); }
+
+.black-container { background-color: var(--black-background); }
+.second-black-container { background-color: var(--second-black-background); }

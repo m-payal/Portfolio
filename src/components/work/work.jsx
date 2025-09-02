@@ -42,6 +42,11 @@ const Stage = styled(Box)`
 
   padding: var(--padY) 0;
   overflow: visible;
+
+  max-width: 1500px;     /* tweak: 960 / 1040 / 1120 */
+  width: 100%;
+  margin: 0 auto;
+
 `;
 
 /* Panel: let it auto-size (remove height: 100%) */
@@ -87,7 +92,7 @@ const TitleLine1 = styled(Typography)`
 const TitleLine2 = styled(Typography)`
   font-family: "Playfair Display","Merriweather",Georgia,serif !important;
   font-weight: 800 !important;
-  color: #ffe45e !important;
+  color: green !important;
   font-size: clamp(18px, 2.4vw, 32px) !important;
   line-height: 1.02;
 `;
@@ -152,7 +157,7 @@ const GoLiveLink = styled.a`
   display: inline-block;
   font-family: "Playfair Display", serif;
   font-style: italic;
-  color: #0b6b3a;
+  color: #8C3EC7;
   font-size: clamp(16px, 2vw, 24px);
   text-decoration: none;
   transition: transform .15s ease, opacity .15s ease, color .15s ease;
@@ -171,29 +176,17 @@ const GoLiveLink = styled.a`
   }
 `;
 const Shot = styled(Box)`
-  --circle: clamp(220px, 24vw, 320px);
-  --ring: 8px;
-
-  width: var(--circle);
-  height: var(--circle);
-  border-radius: 50%;
+  max-width: clamp(300px, 40vw, 480px);   /* flexible but not forced square */
+  border-radius: 12px;                   /* optional: soft rounded rectangle */
   overflow: hidden;
   background: #fff;
-
-  border: var(--ring) solid #e9f4f5;
-  box-shadow:
-    0 18px 42px rgba(7, 35, 58, 0.25),
-    inset 0 0 0 0 rgba(0,0,0,0);
-
-  justify-self: end;
-  @media (max-width: 900px) { justify-self: center; }
+  box-shadow: 0 18px 42px rgba(7, 35, 58, 0.25);
 
   img {
     width: 100%;
-    height: 100%;
-    object-fit: cover;
-    display: block;
-    border-radius: 50%;
+    height: auto;      /* keep aspect ratio */
+    object-fit: contain;  /* prevent cropping */
+    border-radius: 0;  /* no forced shape */
   }
 `;
 
@@ -312,9 +305,7 @@ const Work = () => {
 							</Bullets>
 
 							<Box sx={{ minWidth: 0 }}>
-			<Bullets>
-				{p.bullets.map((b, i) => <li key={i}>{b}</li>)}
-			</Bullets>
+			
 
 			<GoLiveRow>
 				<GoLiveLink
@@ -324,7 +315,7 @@ const Work = () => {
 				aria-label={`Open ${p.name} live site`}
 				data-disabled={!p.link || p.link === "#" ? "true" : undefined}
 				>
-				Go Live —&gt;
+				View Project &gt;
 				</GoLiveLink>
 			</GoLiveRow>
 
@@ -332,7 +323,6 @@ const Work = () => {
 				<Box sx={{ mt: 1.25, display: "flex", justifyContent: "center" }}>
 				<a href={p.gitLink} target="_blank" rel="noreferrer">
 					<CustomButton
-					content="Learn more"
 					beforeWidth="0%"
 					beforeBgColorHover="var(--red-text)"
 					hoverColor="black"

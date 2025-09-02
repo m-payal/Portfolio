@@ -1,14 +1,22 @@
-import './App.css';
-import FullPage from './components/fullPage/fullPage';
-import Nav from './components/nav/nav';
+// src/App.jsx
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import Navbar from "./components/nav/nav";
+import FullPage from "./components/fullPage/fullPage";
 
-function App() {
+const Paintings = lazy(() => import("./pages/paintings"));
+
+export default function App() {
   return (
-    <>
-      <Nav />
-      <FullPage />
-    </>
+    <BrowserRouter>
+      <Navbar />
+      {/* Spacer equal to Toolbar height so sections never hide under the sticky nav */}
+      <Suspense fallback={null}>
+        <Routes>
+          <Route path="/" element={<FullPage />} />
+          <Route path="/paintings" element={<Paintings />} />
+        </Routes>
+      </Suspense>
+    </BrowserRouter>
   );
 }
-
-export default App;
