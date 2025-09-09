@@ -5,8 +5,24 @@ import carify from "../assets/icons/carify.jpg"
 import rail from "../assets/icons/rail.jpg"
 import simplii from "../assets/simplii.png"
 import mriPdf from "../assets/MRI.pdf";
+import furniture from "../assets/icons/furniture.png";
 
 export const projData = [
+  {
+    id: 107,
+    name: "Furniture Studio: Interactive E-Commerce Site",
+    tools: ["Next.js", "React", "Tailwind CSS", "Framer Motion", "Node.js"],
+    points: [
+      "Built a furniture e-commerce site with category pages, product cards, cart drawer, and dynamic visualizations for a smooth browsing experience.",
+      "Integrated animations with Framer Motion and interactive UI components (category tabs, tiles, editorial strip) to keep navigation lively and intuitive.",
+      "Handled product data and category filtering with reusable components and clean structure (`CategoryTiles`, `ProductCard`, `RoomStudio`)."
+    ],
+    label: "Furniture Studio",
+    icon: furniture,
+    link: "https://furniture-studio-seven.vercel.app/",   // live demo if you deploy
+    gitLink: "https://github.com/m-payal/Furniture-Studio",
+    done: false
+  }, 
   {
     id: 101,
     name: "TalentThreads: Gamified Learning Platform",
