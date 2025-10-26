@@ -1,7 +1,7 @@
 // src/components/Home/Home.jsx
 import React from 'react';
 import { Box, Stack, Typography, Chip } from '@mui/material';
-import { motion } from 'framer-motion';
+import { motion, useReducedMotion } from 'framer-motion';
 
 import PersonalImage from '../../assets/images/Personal_Image.jpeg';
 import CustomButton from '../../utils/customButton';
@@ -63,45 +63,58 @@ const gradientText = {
 };
 
 const tagData = [
-  { label: 'AI that adapts',                     icon: '✨', from: '#34d399', to: '#22d3ee' },
-  { label: 'Dashboards that explain themselves', icon: '📊', from: '#60a5fa', to: '#a78bfa' },
-  { label: 'Effortless UIs',                     icon: '🎛️', from: '#f472b6', to: '#f59e0b' },
-  { label: 'Workflows that think ahead',         icon: '⚙️', from: '#22d3ee', to: '#38bdf8' },
-  { label: 'Data that tells a story',            icon: '📈', from: '#f59e0b', to: '#f43f5e' },
+  { label: "AI that adapts", icon: "✨", color: "#7dd3fc" },       // light sky
+  { label: "Dashboards that explain themselves", icon: "📊", color: "#c4b5fd" }, // light violet
+  { label: "Effortless UIs", icon: "🎛️", color: "#fbcfe8" },      // light pink
+  { label: "Workflows that think ahead", icon: "⚙️", color: "#a7f3d0" }, // light mint
+  { label: "Data that tells a story", icon: "📈", color: "#fde68a" },     // light amber
 ];
 
-const FancyTag = ({ icon, label, from, to, i = 0 }) => (
-  <Box
-    component={motion.div}
-    initial={{ opacity: 0, y: 8 }}
-    animate={{ opacity: 1, y: 0 }}
-    transition={{ delay: 0.12 * i }} // slower stagger for tags
-    whileHover={{ y: -2, scale: 1.02 }}
-    whileTap={{ scale: 0.98 }}
-    sx={{
-      display: 'inline-flex',
-      alignItems: 'center',
-      gap: 1,
-      px: 1.6,
-      py: 0.8,
-      borderRadius: 999,
-      fontWeight: 800,
-      fontSize: { xs: 13, md: 14 },
-      color: '#EAF2FF',
-      backgroundImage: `linear-gradient(rgba(13,23,42,.75), rgba(13,23,42,.75)), linear-gradient(90deg, ${from}, ${to})`,
-      backgroundClip: 'padding-box, border-box',
-      border: '2px solid transparent',
-      boxShadow: '0 10px 30px rgba(0,0,0,.35)',
-      backdropFilter: 'blur(3px)',
-      cursor: 'default',
-      whiteSpace: 'nowrap',
-    }}
-  >
-    <span aria-hidden style={{ fontSize: 16, lineHeight: 1 }}>{icon}</span>
-    {label}
-  </Box>
-);
 
+
+// Light, subtle colored pill with larger icon/text
+const PillTag = ({ icon, label, color = "#93c5fd", i = 0 }) => {
+  const reduce = useReducedMotion();
+  // hex with alpha (10/20/40/60%)
+  const bg10 = `${color}1A`; // 10%
+  const bg20 = `${color}33`; // 20%
+  const bd40 = `${color}66`; // 40%
+  const bd60 = `${color}99`; // 60%
+
+  return (
+    <Box
+      component={motion.div}
+      initial={{ opacity: 0, y: 8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ delay: 0.10 * i, duration: 0.4, ease: "easeOut" }}
+      whileHover={
+        reduce ? {} : { y: -2, boxShadow: `0 10px 24px ${bg20}` }
+      }
+      sx={{
+        display: "inline-flex",
+        alignItems: "center",
+        gap: 1,
+        px: 1.8,
+        py: 0.9,
+        borderRadius: 999,
+        whiteSpace: "nowrap",
+        cursor: "default",
+        color: "rgba(245,248,255,0.95)",
+        backgroundColor: bg10,
+        border: `1px solid ${bd40}`,
+        backdropFilter: "blur(8px)",
+        transition: "box-shadow 240ms ease, transform 240ms ease, background 240ms ease, border-color 240ms ease",
+        "&:hover": { backgroundColor: bg20, borderColor: bd60 },
+        fontWeight: 700,
+        fontSize: { xs: 15, md: 16 },    // ↑ label size
+        lineHeight: 1,
+      }}
+    >
+      <span aria-hidden style={{ fontSize: 18, opacity: 0.9, lineHeight: 1 }}>{icon}</span> {/* ↑ icon size */}
+      <span>{label}</span>
+    </Box>
+  );
+};
 
 const Home = () => {
   return (
@@ -161,47 +174,19 @@ const Home = () => {
               Payal Mehta
             </Typography>
 
-            {/* role chips */}
+            {/* role chips — static, no bounce */}
             <Typography
-              component={motion.p}
-              variants={fadeUp(0.18)}
+              component="div"
               variant="body1"
               sx={{ fontSize: { xs: 14, md: 16 }, color: 'rgba(255,255,255,0.9)', mb: 3, fontWeight: 800 }}
             >
-             <motion.span
-                style={{ display: 'inline-flex', alignItems: 'baseline', flexWrap: 'wrap' }}
-              >
-                <motion.span
-                  variants={bounceLoop(0)}
-                  initial="hidden"
-                  animate="visible"
-                  style={{ display: 'inline-block', color: '#7CFC00' }}
-                >
-                  Software Developer
-                </motion.span>
-
+              <span style={{ display: 'inline-flex', alignItems: 'baseline', flexWrap: 'wrap' }}>
+                <span style={{ display: 'inline-block', color: '#7CFC00' }}>Software Developer</span>
                 <span style={{ margin: '0 10px', color: 'rgba(255,255,255,0.85)' }}>•</span>
-
-                <motion.span
-                  variants={bounceLoop(0.7)}
-                  initial="hidden"
-                  animate="visible"
-                  style={{ display: 'inline-block', color: '#7DD3FC' }}
-                >
-                  UX Designer
-                </motion.span>
-
+                <span style={{ display: 'inline-block', color: '#7DD3FC' }}>UX Designer</span>
                 <span style={{ margin: '0 10px', color: 'rgba(255,255,255,0.85)' }}>•</span>
-
-                <motion.span
-                  variants={bounceLoop(1.4)}
-                  initial="hidden"
-                  animate="visible"
-                  style={{ display: 'inline-block', color: '#FACC15' }}
-                >
-                  Data Analyst
-                </motion.span>
-              </motion.span>
+                <span style={{ display: 'inline-block', color: '#FACC15' }}>Data Analyst</span>
+              </span>
             </Typography>
 
             {/* lead line */}
@@ -231,7 +216,7 @@ const Home = () => {
                 fontFamily: '"Inter", system-ui',
                 fontSize: { xs: 15, md: 16 },
                 color: 'rgba(222,244,255,0.9)',
-                mb: 2.5,
+                mb: 5.5,
               }}
             >
               Work sits where <Box component="span" sx={{ fontWeight: 800, color: '#93c5fd' }}>logic</Box> meets{' '}
@@ -240,15 +225,21 @@ const Home = () => {
 
             {/* expressive chips */}
             <Stack
-              component={motion.div}
-              variants={fadeUp(0.3)}
-              direction="row"
-              sx={{ flexWrap: 'wrap', gap: 1.2, mb: 3.5 }}
-            >
-              {tagData.map((t, i) => (
-                <FancyTag key={t.label} {...t} i={i} />
-              ))}
-            </Stack>
+                  component={motion.div}
+                  variants={fadeUp(0.3)}
+                  direction="row"
+                  sx={{
+                    flexWrap: 'wrap',
+                    gap: 1.2,
+                    rowGap: 1.3,
+                    mb: 4,
+                    justifyContent: { xs: 'center', md: 'flex-start' },
+                  }}
+                >
+                  {tagData.map((t, i) => (
+                    <PillTag key={t.label} {...t} i={i} />
+                  ))}
+                </Stack>
 
             {/* CTA */}
             <motion.a

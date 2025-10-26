@@ -12,6 +12,10 @@ html, body { max-width: 100%; overflow-x: hidden; }
   --gutter-lg: 48px; /* desktop page gutter */
 }
 
+section[id] {
+  scroll-margin-top: 90px; /* matches your sticky nav height */
+}
+
 html { scroll-padding-top: var(--nav-h-xs); }
 @media (min-width: 900px) {
   html { scroll-padding-top: var(--nav-h-md); }
