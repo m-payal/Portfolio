@@ -1,15 +1,13 @@
 // src/components/work/Work.jsx
-import React, { useMemo, useState, useEffect, useCallback } from "react";
+import React, { useMemo, useState, useCallback } from "react";
 import { Box, Typography } from "@mui/material";
 import { styled } from "styled-components";
-import { motion } from "framer-motion";
+import { motion, AnimatePresence } from "framer-motion";
 import Heading from "../../utils/heading";
-import CustomButton from "../../utils/customButton";
 import { projData as rawProjects } from "../../data/projectsData";
 
 /* ------------------------------- assets helper ------------------------------- */
 const ASSETS = require.context("../../assets", true, /\.(png|jpe?g|gif|svg)$/);
-
 const getProjectImg = (p) => {
   if (p.icon) return p.icon;
   if (!p.image) return null;
@@ -18,333 +16,271 @@ const getProjectImg = (p) => {
 };
 
 /* ---------------------------------- styles ---------------------------------- */
-const Section = styled(Box)`
-  position: relative;
-`;
+const Section = styled(Box)`position: relative;`;
 
-const Stage = styled(Box)`
-  --gutter: clamp(22px, 3.6vw, 40px);
-  --arrow-gap: clamp(10px, 2vw, 20px);
-  --padY: clamp(10px, 1.6vw, 16px);
-
-  position: relative;
+const SideNav = styled(Box)`
+  pointer-events: none;
+  position: absolute; inset: 0;
   display: grid;
-  grid-template-columns: var(--gutter) minmax(0, 1fr) var(--gutter);
-  column-gap: var(--arrow-gap);
-  align-items: stretch;
-
-  background: var(--second-black-background);
-  border-radius: 28px;
-
-  /* let content decide height; keep a small floor so it never collapses */
-  min-height: 420px;
-  height: auto;
-
-  padding: var(--padY) 0;
-  overflow: visible;
-
-  max-width: 1500px;     /* tweak: 960 / 1040 / 1120 */
-  width: 100%;
-  margin: 0 auto;
-
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
 `;
 
-/* Panel: let it auto-size (remove height: 100%) */
-const Panel = styled(Box)`
-  grid-column: 2;
-  border-radius: 26px;
-  background: #77e6e0;
-  padding: clamp(8px, 1vw, 12px);
-  overflow: hidden; /* keeps rounded look */
-`;
-
-/* Inner padding & gaps trimmed down */
-const PanelInner = styled(Box)`
-  --contentX: clamp(16px, 3vw, 30px);
-  --contentY: clamp(6px, 1vw, 12px);
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: var(--contentY) var(--contentX);
-
-  display: grid;
-  grid-template-rows: auto auto auto;  /* title, pills, body */
-  row-gap: clamp(4px, 1vw, 10px);
-`;
-
-/* Titles: tighter spacing */
-const TitleGroup = styled(Box)`
-  display: grid;
-  row-gap: clamp(2px, .6vw, 8px);
-  justify-items: center;
-  text-align: center;
-  margin: 0;  /* remove extra margin under title block */
-`;
-
-
-const TitleLine1 = styled(Typography)`
-  font-family: "Playfair Display","Merriweather",Georgia,serif !important;
-  font-weight: 800 !important;
-  color: #0e2b3a !important;
-  font-size: clamp(24px, 3.2vw, 46px) !important;
-  line-height: 1.02;                          /* tighter line-height */
-`;
-
-const TitleLine2 = styled(Typography)`
-  font-family: "Playfair Display","Merriweather",Georgia,serif !important;
-  font-weight: 800 !important;
-  color: green !important;
-  font-size: clamp(18px, 2.4vw, 32px) !important;
-  line-height: 1.02;
-`;
-
-const PillsRow = styled(Box)`
-  display: flex;
-  justify-content: center;
-  gap: 10px;
-  flex-wrap: wrap;
-  margin: 0 auto;
-  margin-bottom: clamp(4px, .8vw, 8px);       /* pull content up */
-`;
-
-const Pill = styled(Box)`
-  background: #143b6a;
-  color: #e9f1ff;
+const PagerBtn = styled.button`
+  pointer-events: auto;
+  justify-self: ${p => (p.$side === "left" ? "start" : "end")};
+  margin: 0 10px;
+  display: grid; place-items: center;
+  width: 48px; height: 48px;
   border-radius: 999px;
-  padding: 8px 14px;
-  font-size: 14px;
-  font-weight: 700;
+  border: 1px solid rgba(147,197,253,0.35);
+  background: rgba(173,216,255,0.28);
+  color: #eaf2ff;
+  box-shadow: 0 10px 24px rgba(0,0,0,0.28);
+  cursor: pointer;
+  transition: transform .15s ease, background .15s ease, border-color .15s ease, opacity .15s ease;
+  &:hover { transform: translateY(-1px); background: rgba(173,216,255,0.36); border-color: rgba(147,197,253,0.55); }
+  &:disabled { opacity: .45; cursor: default; transform: none; }
+`;
+
+const Grid = styled(motion.div)`
+  --gap: clamp(14px, 2.2vw, 28px);
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: var(--gap);
+
+  @media (max-width: 900px) { grid-template-columns: 1fr; }
+`;
+
+const Card = styled(motion.article)`
+  background: #0e8074;               /* teal */
+  border: 1px solid rgba(255,255,255,0.12);
+  border-radius: 22px;
+  box-shadow: 0 14px 36px rgba(0,0,0,0.32);
+  overflow: hidden;
+  display: grid;
+  grid-template-rows: auto 1fr auto;
+  color: #0d2430;
+  font-family: "Times New Roman", Times, serif;
+`;
+
+const Thumb = styled(Box)`
+  background: #0a1625;
+  aspect-ratio: 16 / 8;
+  display: grid; place-items: center;
+  overflow: hidden;
+  img { width: 100%; height: 100%; object-fit: cover; display: block; }
+  @media (max-height: 850px) { aspect-ratio: 16 / 7; }
+`;
+
+const CardBody = styled(Box)`
+  padding: 14px 16px 8px;
+  display: grid; gap: 10px;
+  text-align: center;
+  justify-items: center;
+  font-family: "Times New Roman", Times, serif;
+`;
+
+const Title = styled(Typography)`
+  font-family: "Times New Roman", Times, serif !important;
+  font-weight: 800 !important;
+  color: #0a1b2b !important;
+  font-size: clamp(18px, 1.6vw, 24px) !important;
+  line-height: 1.15; margin: 0 !important;
+`;
+
+const Teaser = styled(Typography)`
+  font-family: "Times New Roman", Times, serif !important;
+  color: #10273b;
+  font-size: 16px;
+  line-height: 1.55;
+  max-width: min(64ch, 92%);
+  @media (max-height: 850px) { font-size: 14.5px; line-height: 1.4; }
+`;
+
+const CardFoot = styled(Box)`
+  padding: 10px 16px 14px;
+  display: flex; gap: 12px; justify-content: center; align-items: center;
+`;
+
+/* === NEW: Yellow pill tech tags === */
+const TagsRow = styled(Box)`
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  padding: 2px 18px 10px;
+`;
+
+const TechTag = styled.span`
   display: inline-flex;
   align-items: center;
-  gap: 8px;
-  line-height: 1;
-  white-space: nowrap;
-
-  svg, img { width: 18px; height: 18px; display: inline-block; }
-`;
-
-const Content = styled(Box)`
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;   /* text a touch wider than image */
-  column-gap: clamp(12px, 2vw, 24px);
-  align-items: center;                  /* center text & image on the row */
-  min-height: 0;
-
-  @media (max-width: 900px) {
-    grid-template-columns: 1fr;
-    row-gap: clamp(12px, 3vw, 20px);
-  }
-`;
-
-/* Bullets: keep readable, no giant block */
-const Bullets = styled.ul`
-  margin: 0;
-  padding-left: 22px;
-  color: #07233a;
-  font-size: clamp(13px, 1.1vw, 17px);
-  font-weight: 500;
-  line-height: 1.5;
-  max-width: 740px;  /* keeps lines from getting too long */
-  li { margin: 8px 0; }
-`;
-
-const GoLiveRow = styled(Box)`
-  display: flex;
-  justify-content: center;       /* centers under the text column */
-  margin-top: clamp(8px, 1vw, 12px);
-`;
-
-const GoLiveLink = styled.a`
-  display: inline-block;
-  font-family: "Playfair Display", serif;
-  font-style: italic;
-  color: #8C3EC7;
-  font-size: clamp(16px, 2vw, 24px);
-  text-decoration: none;
-  transition: transform .15s ease, opacity .15s ease, color .15s ease;
+  justify-content: center;
+  padding: 6px 14px;
+  border-radius: 999px;             /* fully rounded pill */
+  background: #facc15;              /* bright yellow */
+  color: #0a1b2b;                   /* dark text for contrast */
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 700;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+  border: 1px solid rgba(0,0,0,0.08);
+  box-shadow: 0 3px 8px rgba(0,0,0,0.15);
+  transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
 
   &:hover {
-    transform: translateX(2px);
-    opacity: .95;
-    text-decoration: underline;
+    transform: translateY(-2px);
+    background: #fde047;           /* lighter yellow on hover */
+    box-shadow: 0 6px 14px rgba(0,0,0,0.22);
   }
+`;
 
-  &[aria-disabled="true"] {
-    color: #0b6b3a80;            /* lighter */
+const LinkBtn = styled.a`
+  font-family: "Times New Roman", Times, serif;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px 20px;
+  border-radius: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  text-decoration: none;
+  color: #0a1b2b;
+  background: rgba(255, 255, 255, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.4);
+  transition: all 0.2s ease-in-out;
+  &:hover {
+    transform: translateY(-2px);
+    background: #ffffff;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+  }
+  &[data-disabled="true"] {
+    opacity: 0.5;
     pointer-events: none;
-    text-decoration: none;
-    cursor: default;
-  }
-`;
-const Shot = styled(Box)`
-  max-width: clamp(300px, 40vw, 480px);   /* flexible but not forced square */
-  border-radius: 12px;                   /* optional: soft rounded rectangle */
-  overflow: hidden;
-  background: #fff;
-  box-shadow: 0 18px 42px rgba(7, 35, 58, 0.25);
-
-  img {
-    width: 100%;
-    height: auto;      /* keep aspect ratio */
-    object-fit: contain;  /* prevent cropping */
-    border-radius: 0;  /* no forced shape */
   }
 `;
 
-const Arrow = styled.button`
-grid-column: ${p => (p.$dir === "prev" ? 1 : 3)};
-justify-self: center;
-align-self: center;
-
-/* bigger clickable area */
-width: clamp(44px, 6vw, 64px);
-height: clamp(44px, 6vw, 64px);
-
-border: 0;
-background: transparent;               /* keep transparent */
-display: grid;
-place-items: center;
-cursor: pointer;
-
-color: #fff;
-filter: drop-shadow(0 2px 10px rgba(0,0,0,.55));
-transition: transform .15s ease, opacity .15s ease;
-opacity: .98;
-
-&:hover { transform: scale(1.08); }
-&:active { transform: scale(1.02); }
-touch-action: manipulation;
+const PageIndicator = styled(Box)`
+  margin-top: 18px;
+  display: flex; justify-content: center;
+  font-family: "Times New Roman", Times, serif;
+  color: rgba(235,242,255,0.95);
+  font-weight: 800;
+  letter-spacing: .08em;
 `;
-
-const Chevron = ({ dir = "next", size = 60 }) => {
-const rotate = dir === "prev" ? "rotate(180deg)" : "none";
-return (
-  <svg
-	width={size}
-	height={size}
-	viewBox="0 0 24 24"
-	style={{ transform: rotate }}
-	fill="none"
-	aria-hidden
-  >
-	<path
-	  d="M8 4l8 8-8 8"
-	  stroke="currentColor"
-	  strokeWidth="3.2"
-	  strokeLinecap="round"
-	  strokeLinejoin="round"
-	/>
-  </svg>
-);
-};
 
 /* --------------------------------- helpers ---------------------------------- */
 const normalize = (p) => {
-  const pills = Array.isArray(p.tools) ? p.tools
-              : Array.isArray(p.languages) ? p.languages : [];
   const bullets = Array.isArray(p.points) && p.points.length
     ? p.points
-    : (p.describtion ? p.describtion.split(". ").filter(Boolean).slice(0, 2) : []);
-  return { ...p, pills, bullets };
+    : (p.describtion ? p.describtion.split(". ").filter(Boolean) : []);
+  const teaser = bullets[0] || "";
+  return { ...p, bullets, teaser };
 };
-const splitTitle = (name) => {
-  if (!name) return ["", ""];
-  const [top, ...rest] = name.split(":");
-  return [top.trim(), rest.join(":").trim()];
+
+const gridVariants = {
+  initial: { opacity: 0, y: 12 },
+  enter:   { opacity: 1, y: 0, transition: { duration: 0.28 } },
+  exit:    { opacity: 0, y: -12, transition: { duration: 0.22 } },
+};
+
+const cardVariants = {
+  hidden: { opacity: 0, y: 16 },
+  visible: (i) => ({ opacity: 1, y: 0, transition: { delay: 0.05 * i, duration: 0.35, ease: "easeOut" } }),
+};
+
+const Chevron = ({ dir = "next", size = 22 }) => {
+  const rotate = dir === "prev" ? "rotate(180deg)" : "none";
+  return (
+    <svg width={size} height={size} viewBox="0 0 24 24" style={{ transform: rotate }} fill="none" aria-hidden>
+      <path d="M8 4l8 8-8 8" stroke="currentColor" strokeWidth="2.6" strokeLinecap="round" strokeLinejoin="round" />
+    </svg>
+  );
 };
 
 /* -------------------------------- component --------------------------------- */
 const Work = () => {
   const projects = useMemo(() => rawProjects.map(normalize), []);
-  const [idx, setIdx] = useState(0);
+  const pageSize = 2;
+  const totalPages = Math.max(1, Math.ceil(projects.length / pageSize));
+  const [page, setPage] = useState(0);
 
-  const prev = useCallback(() => setIdx((i) => (i - 1 + projects.length) % projects.length), [projects.length]);
-  const next = useCallback(() => setIdx((i) => (i + 1) % projects.length), [projects.length]);
+  const goPrev = useCallback(() => setPage((p) => (p - 1 + totalPages) % totalPages), [totalPages]);
+  const goNext = useCallback(() => setPage((p) => (p + 1) % totalPages), [totalPages]);
 
-  useEffect(() => {
-    const onKey = (e) => {
-      if (e.key === "ArrowLeft") prev();
-      if (e.key === "ArrowRight") next();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [prev, next]);
-
-  const p = projects[idx];
-  const imgSrc = getProjectImg(p);
-  const [topTitle, subTitle] = splitTitle(p.name);
+  const start = page * pageSize;
+  const visible = projects.slice(start, start + pageSize);
 
   return (
-    <Section id="work" className="work container second-black-container">
+    <Section id="work" className="work container second-black-container" style={{ position: "relative", padding: "0 40px" }}>
       <Heading headerText="My Work" />
+      <Box sx={{ mt: -1 }} />
 
-      <Stage
-        as={motion.div}
-        initial={{ opacity: 0, y: 30 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true }}
-      >
-        <Arrow aria-label="Previous project" $dir="prev" onClick={prev}>
+      {/* Centered arrow buttons */}
+      <SideNav aria-hidden="true">
+        <PagerBtn $side="left" onClick={goPrev} aria-label="Previous projects" style={{ marginLeft: "-60px" }}>
           <Chevron dir="prev" />
-        </Arrow>
+        </PagerBtn>
 
-        <Panel>
-          <PanelInner>
-            <TitleGroup>
-              <TitleLine1 component="h2">{topTitle}</TitleLine1>
-              {subTitle && <TitleLine2 component="h3">{subTitle}</TitleLine2>}
-            </TitleGroup>
-
-            <PillsRow>
-              {p.pills.map((chip, i) => <Pill key={i}>{chip}</Pill>)}
-            </PillsRow>
-
-            <Content>
-						<Box sx={{ minWidth: 0 }}>
-							<Bullets>
-							{p.bullets.map((b, i) => <li key={i}>{b}</li>)}
-							</Bullets>
-
-							<Box sx={{ minWidth: 0 }}>
-			
-
-			<GoLiveRow>
-				<GoLiveLink
-				href={p.link || "#"}
-				target="_blank"
-				rel="noreferrer"
-				aria-label={`Open ${p.name} live site`}
-				data-disabled={!p.link || p.link === "#" ? "true" : undefined}
-				>
-				View Project &gt;
-				</GoLiveLink>
-			</GoLiveRow>
-
-			{p.gitLink && p.gitLink !== "#" && (
-				<Box sx={{ mt: 1.25, display: "flex", justifyContent: "center" }}>
-				<a href={p.gitLink} target="_blank" rel="noreferrer">
-					<CustomButton
-					beforeWidth="0%"
-					beforeBgColorHover="var(--red-text)"
-					hoverColor="black"
-					textColor="var(--white-text)"
-					/>
-				</a>
-				</Box>
-			)}
-			</Box>
-              </Box>
-
-              <Shot>
-                {imgSrc && <img src={imgSrc} alt={p.name} loading="eager" />}
-              </Shot>
-            </Content>
-          </PanelInner>
-        </Panel>
-
-        <Arrow aria-label="Next project" $dir="next" onClick={next}>
+        <PagerBtn $side="right" onClick={goNext} aria-label="Next projects" style={{ marginRight: "-60px" }}>
           <Chevron dir="next" />
-        </Arrow>
-      </Stage>
+        </PagerBtn>
+      </SideNav>
+
+      {/* Card Grid */}
+      <AnimatePresence mode="wait">
+        <Grid
+          key={page}
+          variants={gridVariants}
+          initial="initial"
+          animate="enter"
+          exit="exit"
+          style={{ padding: "0 10px" }}
+        >
+          {visible.map((p, i) => {
+            const imgSrc = getProjectImg(p);
+            return (
+              <Card
+                key={p.id}
+                variants={cardVariants}
+                initial="hidden"
+                animate="visible"
+                custom={i}
+                whileHover={{ y: -3, boxShadow: "0 16px 36px rgba(0,0,0,0.35)" }}
+              >
+                <Thumb>{imgSrc && <img src={imgSrc} alt={p.label || p.name} loading="lazy" />}</Thumb>
+
+                <CardBody>
+                  <Title component="h3">{p.name}</Title>
+                  {p.teaser && <Teaser>{p.teaser}</Teaser>}
+                </CardBody>
+
+                {/* Yellow pill tech tags */}
+                <TagsRow>
+                  {p.tools?.map((tool) => (
+                    <TechTag key={tool}>{tool}</TechTag>
+                  ))}
+                </TagsRow>
+
+                <CardFoot>
+                  <LinkBtn
+                    href={p.link || "#"}
+                    target="_blank"
+                    rel="noreferrer"
+                    aria-label={`Open ${p.name} live site`}
+                    data-disabled={!p.link || p.link === "#"}
+                  >
+                    View Project →
+                  </LinkBtn>
+                </CardFoot>
+              </Card>
+            );
+          })}
+        </Grid>
+      </AnimatePresence>
+
+      {/* Page indicator below cards */}
+      <PageIndicator>{String(page + 1).padStart(2, "0")} / {String(totalPages).padStart(2, "0")}</PageIndicator>
     </Section>
   );
 };

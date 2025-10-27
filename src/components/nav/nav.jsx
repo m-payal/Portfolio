@@ -12,7 +12,7 @@ import { ReactComponent as MailIcon } from "../../assets/icons/mail.svg";
 /* ---------- Styled ---------- */
 const IconLink = styled.a.withConfig({ shouldForwardProp: p => p !== "$size" })`
   --icon-size: ${(p) => p.$size || 22}px;
-  color: var(--nav-link, #9ccafc);
+  color: var(--nav-link, #46bbdb);
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -46,9 +46,9 @@ const Sytledlinks = styled.ul`
 `;
 
 const SytledlinksItems = styled.a`
-  color: var(--nav-link, #9ccafc);
+  color: var(--nav-link, #ffffff);
   font-family: "Playfair Display", serif;
-  font-style: italic;
+  font-style: bold;
   font-weight: 700;
   font-size: clamp(1rem, 0.85rem + 0.6vw, 1.375rem);
   letter-spacing: 0.01em;
