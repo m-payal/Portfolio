@@ -5,6 +5,7 @@ import { styled } from "styled-components";
 import { motion, AnimatePresence } from "framer-motion";
 import Heading from "../../utils/heading";
 import { projData as rawProjects } from "../../data/projectsData";
+import { Link } from "react-router-dom";
 
 /* ------------------------------- assets helper ------------------------------- */
 const ASSETS = require.context("../../assets", true, /\.(png|jpe?g|gif|svg)$/);
@@ -17,6 +18,24 @@ const getProjectImg = (p) => {
 
 /* ---------------------------------- styles ---------------------------------- */
 const Section = styled(Box)`position: relative;`;
+
+const CategoryRibbon = styled.div`
+  position: absolute;
+  top: 14px;
+  left: 0;
+  background: #0a1b2b;
+  color: #ffffff;
+  font-family: "Times New Roman", Times, serif;
+  font-weight: 700;
+  font-size: 15px;
+  padding: 8px 20px;
+  border-top-right-radius: 8px;
+  border-bottom-right-radius: 10px;
+  clip-path: polygon(0 0, 95% 0, 100% 50%, 95% 100%, 0 100%);
+  z-index: 1;
+  letter-spacing: 0.3px;
+`;
+
 
 const SideNav = styled(Box)`
   pointer-events: none;
@@ -53,13 +72,14 @@ const Grid = styled(motion.div)`
 `;
 
 const Card = styled(motion.article)`
-  background: #0e8074;               /* teal */
-  border: 1px solid rgba(255,255,255,0.12);
+  position: relative;
+  background: #0e8074;
+  border: 1px solid rgba(255, 255, 255, 0.12);
   border-radius: 22px;
-  box-shadow: 0 14px 36px rgba(0,0,0,0.32);
+  box-shadow: 0 14px 36px rgba(0, 0, 0, 0.32);
   overflow: hidden;
   display: grid;
-  grid-template-rows: auto 1fr auto;
+  grid-template-rows: auto 1fr auto auto;
   color: #0d2430;
   font-family: "Times New Roman", Times, serif;
 `;
@@ -248,6 +268,7 @@ const Work = () => {
                 custom={i}
                 whileHover={{ y: -3, boxShadow: "0 16px 36px rgba(0,0,0,0.35)" }}
               >
+                {p.category && <CategoryRibbon>{p.category}</CategoryRibbon>}
                 <Thumb>{imgSrc && <img src={imgSrc} alt={p.label || p.name} loading="lazy" />}</Thumb>
 
                 <CardBody>
@@ -263,16 +284,17 @@ const Work = () => {
                 </TagsRow>
 
                 <CardFoot>
-                  <LinkBtn
-                    href={p.link || "#"}
-                    target="_blank"
-                    rel="noreferrer"
-                    aria-label={`Open ${p.name} live site`}
-                    data-disabled={!p.link || p.link === "#"}
-                  >
-                    View Project →
-                  </LinkBtn>
-                </CardFoot>
+                    <LinkBtn
+                      href={p.link || "#"}
+                      target="_blank"
+                      rel="noreferrer"
+                      aria-label={`Open ${p.name} live site`}
+                      data-disabled={!p.link || p.link === "#"}
+                    >
+                      View Project →
+                    </LinkBtn>
+                  </CardFoot>
+
               </Card>
             );
           })}
