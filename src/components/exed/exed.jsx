@@ -23,65 +23,128 @@ import cumminsLogo from "../../assets/icons/cummins.png";
 const ITEMS = [
   {
     side: "left",
-    type: "edu",
-    period: "Aug 2023 – May 2025",
-    title: "Master of Computer Science",
-    org: "North Carolina State University",
-    tags: ["AI/ML", "Big Data", "HCI", "Data"],
-    logo: ncsuLogo,
+    type: "work",
+    period: "May 2025 – Present",
+    title: "Web Developer",
+    org: "SupplyPoint - Durham, USA",
+    tags: [
+      "React",
+      "TypeScript",
+      "Next.js",
+      "Tailwind",
+      "Redux",
+      "Hooks",
+      "Context API",
+      "SQL",
+      "PostgreSQL",
+      "Wyn Enterprise",
+      "Power BI",
+      "Azure",
+      "GitHub Actions"
+      ],
+    logo: supplypointLogo,
     manualHighlights: [
-      "GPA: 3.5/4",
-      "Coursework:  Human-Computer Interaction (HCI), Software Engineering, Program-Centered Design, Neural Networks, Database Management, Data Science, Software Security, Program-Centered User Design",
+      "Developed responsive React dashboards and reusable components with Hooks and Redux",
+      "Integrated REST APIs and Wyn Enterprise analytics for reliable data flow and insights",
+      "Implemented unit testing and CI pipelines to ensure build stability and fast releases",
+      "Collaborated across design and backend teams to maintain performance and accessibility"
+    ]
+    },
+  {
+  side: "right",
+  type: "edu",
+  period: "Aug 2023 – May 2025",
+  title: "Master of Computer Science",
+  org: "North Carolina State University",
+  tags: ["AI/ML", "Software Engineering", "Software Security", "HCI", "Data Analytics"],
+  logo: ncsuLogo,
+  manualHighlights: [
+  "GPA: 3.5/4",
+  "Coursework: Human Computer Interaction, Software Engineering, Program Centered Design, Neural Networks, Database Management, Data Science, Software Security, Program Centered User Design"
+  ]
+  },
+  
+  {
+  side: "left",
+  type: "work",
+  period: "Aug 2024 – May 2025",
+  title: "Web Design Intern",
+  org: "SupplyPoint - Durham, USA",
+  summary:
+  "Translated Figma prototypes into front end components. Defined UI patterns with Framer Motion. Helped tighten the design system and accessibility. Built templates for analytics dashboards.",
+  tags: [
+    "Figma",
+    "React",
+    "Next.js",
+    "Tailwind CSS",
+    "Framer Motion",
+    "TypeScript",
+    "Lighthouse",
+    "Chrome DevTools",
+    "Accessibility",
+    "WCAG",
+    "Webpack",
+    "Git"
     ],
+  logo: supplypointLogo,
+  manualHighlights: [
+    "Converted Figma wireframes into accessible React views with clean CSS",
+    "Standardized motion and UI patterns with Framer Motion and Tailwind",
+    "Optimized rendering with Lighthouse and code splitting",
+    "Kept builds stable with Webpack, Babel and Git workflows"
+    ]
   },
   {
     side: "right",
-    type: "work",
-    period: "Aug 2024 – Present",
-    title: "Web Developer",
-    org: "SupplyPoint — Remote, USA",
-    summary:
-      "React/TypeScript + WCAG flows; onboarding time ↓25%. Shipped 15+ Figma → prod features (reviews ↓40%). Integrated Node/Express + SQL for 5+ Power BI dashboards (redundant reporting ↓50%). TDD to ~80% coverage (bugs ↓25%). Automated HR routing with Power Automate (SLA ↑20%).",
-    tags: ["React", "TypeScript", "Node/Express", "SQL", "Power BI", "HTML","CSS", "Power Automate", "Microsoft Tools"],
-    logo: supplypointLogo,
-    manualHighlights: [
-      "Built an employee onboarding site with React and Redux on a Node and Express backend. Authentication used JWT and role based access so people saw only what they should. Drew the experience in Figma and Balsamiq and translated it into clean HTML, CSS and JavaScript for the company site. Shaped Power BI dashboards with SQL and DAX and ran HR operations with Microsoft tools including Power Automate, SharePoint ticketing, Copilot and Excel."
-     ]
-  },
-  {
-    side: "left",
     type: "work",
     period: "Jun 2024 – Aug 2024",
     title: "Research Assistant",
-    org: "North Carolina State University — Raleigh, NC",
+    org: "North Carolina State University - Raleigh, NC",
     summary:
       "Processed 5K+ logs with Python/R/SQL; flagged 120+ anomalies. Prototyped summarization pipelines; stability ↑18%. Delivered BI visuals used in 2 publications.",
-    tags: ["Python", "R", "SQL", "NLP", "BI/Visualization"],
+      tags: [
+        "Flask",
+        "Python",
+        "SQL",
+        "OpenEMR",
+        "Data Visualization",
+        "Analytics",
+        "Healthcare",
+        "UI/UX",
+        "Software Security",
+        "Vulnerability Testing"
+      ],
     logo: ncsuLogo,
     manualHighlights: [
-      "Explored system and application logs until clear patterns and outliers stood out. Wrote Python and R notebooks that turned long traces into short, readable notes. Built visual stories in Matplotlib and shared them with faculty for decisions. Kept data, runs, and code versioned so experiments stayed repeatable."
+      "Developed analytics dashboards and UI enhancements for the OpenEMR healthcare system",
+      "Integrated React and Flask APIs to visualize patient and operations data interactively",
+      "Implemented data preprocessing and visualization pipelines using Python and SQL",
+      "Collaborated with faculty to evaluate usability and improve clinical data workflows"
+    ]
+  },
+  {
+    side: "left",
+    type: "work",
+    period: "Jul 2022 – Jul 2023",
+    title: "Software Engineer",
+    org: "Citibank - Pune, India",
+   tags: ["Java", "Python", "Angular","Apache Kafka", "Spring Boot", "Dash","Plotly", "MongoDB", "Grafana", "Docker", "Kubernetes", "CI/CD"],
+    logo: citibankLogo,
+    manualHighlights: [
+      "Developed financial dashboards using Angular and Spring Boot microservices",
+      "Integrated Kafka pipelines and Oracle SQL models for compliance analytics",
+      "Built Plotly and Grafana dashboards to monitor performance and reliability",
+      "Containerized microservices with Docker and Kubernetes using automated CI/CD"
     ],
   },
   {
     side: "right",
-    type: "work",
-    period: "Jul 2022 – Jul 2023",
-    title: "Software Engineer",
-    org: "Citibank — Pune, India",
-   tags: ["Java", "Python", "Angular","Apache Kafka", "Spring Boot", "Dash","Plotly", "MongoDB", "Grafana", "Docker", "Kubernetes", "CI/CD"],
-    logo: citibankLogo,
-    manualHighlights: [
-      "Delivered Spring Boot services behind Angular interfaces and ensured their stability in production. Integrated Kafka streams and Oracle data models to support risk analytics, while building a lightweight load-testing rig that surfaced bottlenecks early. Produced dashboards in Dash, Plotly, and Grafana to reveal patterns and reduce triage time, and kept services containerized and deployed on Kubernetes with a strengthened CI/CD pipeline backed by comprehensive JUnit tests.",
-    ],
-  },
-  {
-    side: "left",
     type: "edu",
     period: "Aug 2018 – May 2022",
     title: "Bachelor of Computer Engineering",
     org: "MKSSS Cummins College of Engineering — Pune, India",
     summary: "GPA 8.76.",
-    tags: ["Data Structures", "Algorithms", "Systems", "Databases"],
+    tags: ["Data Structures", "Algorithms", "System Design", "Databases", "Java Full stack", "Big Data Analytics"],
     logo: cumminsLogo,
     manualHighlights: [
       "GPA: 8.76/10",
@@ -89,17 +152,20 @@ const ITEMS = [
     ],
   },
   {
-    side: "right",
+    side: "left",
     type: "work",
     period: "Aug 2021 – May 2022",
     title: "Software Developer Intern",
     org: "Shyena Tech Yarns — Pune, India",
     summary:
       "Banking chatbot with Python (RASA/NLP) automated Tier-1 (workload ↓80%). Tuned DynamoDB/Elasticsearch (latency ↓35%). Deployed on AWS with Docker/K8s (99.9% availability).",
-    tags: ["Python", "RASA", "NLP", "DynamoDB", "Elasticsearch", "AWS", "Dockeer", "K8s"],
+    tags: ["Python", "RASA", "NLP", "DynamoDB", "Elasticsearch", "AWS", "Docker", "K8s"],
     logo: shyenaLogo,
     manualHighlights: [
-     "Built a multilingual banking assistant using RASA that could interpret real customer intents and respond naturally. Modeled dialog flows, refined entities, and tested NLP accuracy across multiple scenarios. Optimized DynamoDB and Elasticsearch for faster queries and reliable state storage, then deployed the stack on AWS using Docker and Kubernetes while monitoring system health in production.",
+     "Built a multilingual banking assistant using RASA to resolve customer intents.", 
+     "Modeled dialog flows and tested NLP accuracy across multiple scenarios.",
+     "Optimized DynamoDB and Elasticsearch for faster queries and reliable state storage.",
+     "Deployed on AWS using Docker and Kubernetes, monitoring system health in production."
     ],
   },
 ];
@@ -108,7 +174,7 @@ const ITEMS = [
 
 const Section = styled(Box)`
   position: relative;
-  max-width: 1200px;
+  max-width: 1440px;
   margin: 0 auto;
   padding: 0 24px 96px;
 `;
@@ -132,7 +198,8 @@ const Rail = styled(Box)`
 const Row = styled(Box)`
   position: relative;
   display: grid;
-  grid-template-columns: 1fr 120px 1fr;
+  grid-template-columns: minmax(0, 1.4fr) 72px minmax(0, 1.4fr);
+  column-gap: 48px;
   align-items: center;
   min-height: 220px;
   padding: 48px 0;
@@ -154,7 +221,8 @@ const CenterCol = styled(Box)`
 
 const Node = styled(Box)`
   --ring: ${(p) => (p.$type === "edu" ? "rgba(0,200,200,0.28)" : "rgba(120,160,255,0.28)")};
-  width: 70px; height: 70px; border-radius: 50%;
+  width: 70px; 
+  height: 70px; border-radius: 50%;
   display: grid; place-items: center;
   background: radial-gradient(78% 78% at 50% 50%, #122033 0%, #0c1727 100%);
   border: 2px solid rgba(255,255,255,0.35);
@@ -166,16 +234,23 @@ const Node = styled(Box)`
 
 const DateLabel = styled(Typography)`
   color: #ffd54a; font-weight: 800 !important; font-style: italic;
-  font-size: 0.98rem !important; line-height: 1.2; text-align: center;
+  font-size: 2 rem !important; line-height: 1.2; text-align: center;
   display: block; margin-bottom: 12px;
+  font-family: "Times New Roman";
 `;
 
 const CardWrap = styled(Box)`
   grid-column: ${(p) => (p.$side === "left" ? "1 / 2" : "3 / 4")};
-  width: min(560px, 100%);
+  width: 100%;
+  max-width: 820px;
   ${(p) => (p.$side === "left" ? "justify-self:end;" : "justify-self:start;")}
-  @media (max-width: 900px) { grid-column: 1 / -1; justify-self: stretch; }
+
+  @media (max-width: 900px) {
+    grid-column: 1 / -1;
+    justify-self: stretch;
+  }
 `;
+
 
 /* --- 3D Flip Card --- */
 const Card3D = styled(Box)`
@@ -193,16 +268,20 @@ const Face = styled(Box)`
   backface-visibility: hidden;
   border-radius: 18px;
   padding: 22px 24px;
-  color: #eafcff;
-  background: linear-gradient(180deg, rgba(0,128,128,0.9) 0%, rgba(0,102,128,0.9) 100%);
-  border: 1px solid rgba(0,255,255,0.25);
+  color: #2b228c;
+  background: #51B3F0;
+  align-items: center;
+  font-family: "Times New Roman", Times, serif;
+  { font-family: inherit !important; }
+  border: 1px solid rgba(0,255,255,0.2);
   box-shadow: 0 24px 60px rgba(0,0,0,0.35);
   min-height: 190px;
 `;
 
 const Back = styled(Face)`
   position: absolute; inset: 0; transform: rotateY(180deg);
-  background: linear-gradient(180deg, #0e3c55, #0b3348);
+  background: linear-gradient(180deg, #8de3f0, #179cb0);
+  font-family: "Times New Roman", Times, serif;
 `;
 
 const HeaderRow = styled(Box)`
@@ -211,16 +290,23 @@ const HeaderRow = styled(Box)`
 `;
 
 const LogoBadge = styled("img")`
-  width: 40px; height: 40px; object-fit: contain; display: block;
+  width: 50px; height: 40px; object-fit: contain; display: block;
   border-radius: 6px; background: transparent; box-shadow: none;
 `;
 
 const Title = styled(Typography)`
-  font-weight: 800 !important; color: #e9faff; margin: 0 !important;
+  font-family: "Times New Roman", Times, serif !important;
+  font-weight: 900 !important;
+  color: #06134f;
+  margin: 0 !important;
+  font-size: 1.4rem !important;
+  letter-spacing: 0.3px;
 `;
 
 const Org = styled(Typography)`
   opacity: 0.9; margin-top: 2px !important; margin-bottom: 10px !important;
+  font-style: bold;
+  font-family: "Times New Roman", Times, serif !important;
 `;
 
 const Tags = styled(Box)`
@@ -230,7 +316,7 @@ const Tags = styled(Box)`
 const Tag = styled("span")`
   display: inline-block; padding: 6px 10px; font-size: 0.78rem;
   border-radius: 999px; color: #e0ffff;
-  background: rgba(0,180,180,0.2); border: 1px solid rgba(0,200,200,0.35);
+  background: #0C4E78; border: 1px solid rgba(0,200,200,0.35);
   letter-spacing: 0.2px;
 `;
 
@@ -280,7 +366,7 @@ const Exed = () => {
   const reduceMotion = useReducedMotion();
 
   return (
-    <Box className="exed container black-container" id="exed" sx={{ position: "relative" }}>
+    <Box className="exed container black-container" id="exed" sx={{ position: "relative", maxWidth: "none" }}>
       <Heading headerText="Experience & Education" id="exed-heading" />
 
       <Section>

@@ -6,13 +6,14 @@ import { motion } from "framer-motion";
 import Heading from "../../utils/heading";
 import { data as servicesData } from "../../data/servicesData";
 
+
 /* ---------------------------------- constants ---------------------------------- */
 const CARD_RADIUS = "25px";
 const GRID_GAP_Y = 30;
 const GRID_GAP_X = 30;
 
 // one visible row of 3 items
-const COLS = 3;
+const COLS = 4;
 const ROWS = 1;
 const PER_PAGE = COLS * ROWS;
 
@@ -41,7 +42,7 @@ const HeaderWrap = styled(Box)`
 const Grid = styled(Box)`
   flex: 1;
   display: grid;
-  grid-template-columns: repeat(3, minmax(300px, 1fr));
+  grid-template-columns: repeat(2, minmax(300px, 1fr));
   gap: var(--gy) var(--gx);
   align-content: start;
   margin-top: clamp(20px, 3vw, 30px);
@@ -58,13 +59,6 @@ const Block = styled(Box)`
   row-gap: 20px;
 `;
 
-const BlockTitle = styled(Typography)`
-  font-size: 100px;
-  font-weight: 700 !important;
-  color: #ffbf84;
-  text-align: center;
-  margin: 0 0 calc(var(--gy) / 2);
-`;
 
 /* ------------------------------- flip card shell ------------------------------- */
 const CardShell = styled(Box)`
@@ -76,7 +70,7 @@ const CardShell = styled(Box)`
 
 const Clip = styled(Box)`
   position: relative;
-  min-height: 240px; /* room for one row + labels + arrows */
+  min-height: 300px; /* room for one row + labels + arrows */
   border-radius: ${CARD_RADIUS};
   overflow: hidden;
   box-shadow: 0 26px 54px rgba(0,0,0,.30);
@@ -110,19 +104,59 @@ const Front = styled(Face)`
     linear-gradient(0deg, rgba(255,255,255,.06), rgba(255,255,255,.06)),
     ${(p) => p.$bg};
   color: #0b0b0b;
-  gap: 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start; /* keeps items at top, not centered vertically */
+  text-align: center;
+  padding: 24px 20px 32px; /* less vertical padding */
+  gap: 10px;
 
-  .icon {
-    align-self: center;
-    display: grid; place-items: center;
-    font-size: 60px; line-height: 1; margin-bottom: 6px;
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 8px;
   }
+
+  .header img {
+    width: 120px;
+    height: 120px;
+    object-fit: contain;
+  }
+
+  .title {
+    font-weight: 800;
+    font-size: clamp(22px, 2.6vw, 28px);
+    font-family: "Times New Roman", Times, serif;
+    color: #0b0b0b;
+  }
+
+  .body {
+    max-width: 700px;
+    text-align: center;
+    font-size: clamp(16px, 2vw, 22px);
+    line-height: 1.4; /* tighter */
+    font-family: "Times New Roman", Times, serif;
+    color: #1f1780;
+  }
+
   .cta {
-    position: absolute; right: 20px; bottom: 10px;
-    font-weight: 700; color: brown; display: inline-flex; align-items: center; gap: 6px;
-    user-select: none;
-  }
+  position: relative;
+  text-align: center;
+  font-family: "Times New Roman", Times, serif;
+  font-style: italic;
+  font-size: 20px;
+  font-weight: 500;
+  color: black;
+  margin-top: 24px;
+  width: 100%;
+}
 `;
+
+
+
 
 /* ----------------------------- Back (tools carousel) -------------------------- */
 const Back = styled(Face)`
@@ -146,20 +180,23 @@ const Back = styled(Face)`
 
 
 const ToolsTitle = styled(Typography)`
-  grid-row: 1;
-  grid-column: 1 / 4;
+  && {
+    grid-row: 1;
+    grid-column: 1 / 4;
+    text-align: center;
 
-  font-family: "Sora","Poppins",system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;
-  font-weight: 800 !important;
-  font-size: clamp(22px, 3vw, 30px);
-  line-height: 1.15;
-  color: black;
-  letter-spacing: .4px;
-  text-align: center;
-  margin: 0;
+    font-family: "Fredoka", "Baloo 2", "Comic Neue", system-ui, sans-serif !important;
+    font-weight: 800 !important;
+    font-size: clamp(28px, 4.2vw, 45px) !important;
+    line-height: 1.1;
+    letter-spacing: 0.8px;
+    color: #1f1780;
+    text-shadow: 0 2px 0 rgba(0,0,0,0.05);
+    margin: 4px 0 22px;
+  }
 `;
 
-/* === THIS is the important part: exactly 3 equal columns that always fit === */
+/* === THIS is the important part: exactly 4 equal columns that always fit === */
 const ToolsRow = styled(Box)`
   --chip: clamp(56px, 8vw, 92px);             /* icon circle size           */
   --gap:  clamp(22px, 4vw, 44px);             /* space between tiles        */
@@ -172,7 +209,7 @@ const ToolsRow = styled(Box)`
   margin: 0 auto;
 
   display: grid;
-  grid-template-columns: repeat(3, minmax(0, 1fr));
+  grid-template-columns: repeat(4, minmax(0, 1fr));
   column-gap: var(--gap);
   justify-items: center;
   align-items: start;
@@ -182,7 +219,7 @@ const Tile = styled(motion.button)`
   all: unset;
   width: 100%;
   max-width: 180px;
-
+  font-family: "Times New Roman", Times, serif;
   display: grid;
   grid-template-rows: var(--chip) auto;
   gap: 10px;
@@ -199,10 +236,11 @@ const Tile = styled(motion.button)`
     box-shadow: 0 10px 26px rgba(0,0,0,.22);
     overflow: hidden;
   }
-  img, svg { width: 78%; height: 78%; object-fit: contain; display: block; }
+  img, svg { width: 82%; height: 82%; object-fit: contain; display: block; }
 
   .label {
     font-weight: 800;
+    font-family: "Times New Roman", Times, serif;
     font-size: clamp(13px, 1.4vw, 18px);
     color: #141820;
     line-height: 1.15;
@@ -288,7 +326,6 @@ const FlipCard = ({ item, i }) => {
       viewport={{ once: true, amount: 0.25 }}
       transition={{ delay: 0.06 * i, duration: 0.45 }}
     >
-      <BlockTitle variant="h6">{item.name}</BlockTitle>
 
       <CardShell
         onMouseEnter={() => setFlipped(true)}
@@ -302,18 +339,22 @@ const FlipCard = ({ item, i }) => {
           <Flipper data-flipped={flipped}>
             {/* FRONT */}
             <Front $bg={item.frontBg}>
-              <Box className="icon">{item.icon}</Box>
-              <Typography variant="body1" sx={{ color: "#0b0b0b", lineHeight: 2 }}>
+              <Box className="header">
+                <img src={item.image} alt={`${item.name} image`} />
+                <Typography className="title">{item.name}</Typography>
+              </Box>
+
+              <Typography className="body">
                 {item.front}
               </Typography>
-              <Typography variant="body2" className="cta">Tools →</Typography>
+
+              <Typography variant="body2" className="cta">Tools I Use →</Typography>
             </Front>
+
 
             {/* BACK */}
             <Back>
-			<ToolsTitle component="h3" $size="32px" $color="#222">
-					Tech Stack
-					</ToolsTitle>
+			<ToolsTitle component="h4">Tech Stack</ToolsTitle>
 
 				<ToolsRow onMouseDown={swallow} onTouchStart={swallow} onClick={swallow}>
 					{pageItems.map((t, idx) => (
