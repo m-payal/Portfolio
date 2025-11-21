@@ -1,7 +1,7 @@
 export const timeline = [
   {
   type: "experience",
-  title: "Web Developer",
+  title: "Software Developer",
   org: "SupplyPoint",
   where: "Remote, USA",
   when: "June 2025 – Present",

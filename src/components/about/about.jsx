@@ -5,7 +5,7 @@ import Heading from '../../utils/heading';
 import CustomButton from '../../utils/customButton';
 import { styled } from 'styled-components';
 import { data } from '../../data/aboutData';
-import CV from '../../assets/CV/Payal_Resume.pdf';
+import CV from '../../assets/CV/Resume.pdf';
 import { motion } from 'framer-motion';
 import openIcon from '../../assets/icons/open.png';
 

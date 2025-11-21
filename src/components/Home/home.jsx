@@ -5,7 +5,7 @@ import { motion } from "framer-motion";
 
 import PersonalImage from "../../assets/images/Personal_Image.jpeg";
 import CustomButton from "../../utils/customButton";
-import CV from "../../assets/CV/Payal_Resume.pdf";
+import CV from "../../assets/CV/Resume.pdf";
 import openIcon from "../../assets/icons/open.png";
 import "../Home/ScrollingTags.css";
 

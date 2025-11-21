@@ -35,7 +35,7 @@ const Footer = () => {
 					alignItems="center"
 					gap="1rem">
 					<a
-						href="https://www.linkedin.com/payal-mehta18/"
+						href="https://www.linkedin.com/in/payal-mehta18/"
 						target="_blank"
 						rel="noreferrer">
 						<img

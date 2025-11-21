@@ -25,7 +25,7 @@ const ITEMS = [
     side: "left",
     type: "work",
     period: "May 2025 – Present",
-    title: "Web Developer",
+    title: "Software Developer",
     org: "SupplyPoint - Durham, USA",
     tags: [
       "React",
